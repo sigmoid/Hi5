@@ -29,11 +29,12 @@ public class GameController : MonoBehaviour
         // If we already have a game controller.
         if (instance != null && instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
+            return;
         }
 
         instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this.transform.parent.gameObject);
         
     }
 

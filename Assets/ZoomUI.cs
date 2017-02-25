@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ZoomUI : MonoBehaviour {
 
     [SerializeField]
-    private int AnimationTime;
+    private float AnimationTime;
     [SerializeField]
     private int maxScale;
     [SerializeField]

@@ -66,11 +66,6 @@ public class ArmController : MonoBehaviour {
             //wrist
             UpdateAxis(_WristAxis, w_MinRot, w_MaxRot, ref w_CurrentRot, Hand, _WristAnchor);
         }
-
-        if (Input.GetAxis(_Hi5Axis) != 0)
-        {
-            StartCoroutine(_Fiveage());
-        }
     }
 
     private void UpdateAxis(string axis, float minLimit, float maxLimit, ref float currentRot, Transform obj, Transform anchor)
@@ -94,10 +89,13 @@ public class ArmController : MonoBehaviour {
         {
             float deg = Time.deltaTime * Sensitivity * 2;
 
-            if (deg + e_CurrentRot <= e_MaxRot && deg + e_CurrentRot >= e_MinRot)
+            if (deg + e_CurrentRot <= e_MaxRot && deg + e_CurrentRot >= e_MinRot )
             {
                 e_CurrentRot += deg;
                 ForeArm.RotateAround(_ElbowAnchor.position, Vector3.forward, deg);
+                s_CurrentRot += deg;
+                UpperArm.RotateAround(_ShoulderAnchor.position, Vector3.forward, deg);
+
                 yield return null;
             }
             else

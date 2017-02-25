@@ -6,6 +6,7 @@ public class EnemyAI : MonoBehaviour {
     public bool UpDown;
     public int upRange;
     public int downRange;
+    public float speed = 0.01f;
 
     private bool goingUp;
 
@@ -24,14 +25,14 @@ public class EnemyAI : MonoBehaviour {
                 if (this.transform.position.y < upRange)
                     goingUp = false;
                 else
-                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.01f, this.transform.position.z);
+                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - speed, this.transform.position.z);
             }
             else
             {
                 if (this.transform.position.y > downRange)
                     goingUp = true;
                 else
-                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.01f, this.transform.position.z);
+                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + speed, this.transform.position.z);
             }
         }
 	}

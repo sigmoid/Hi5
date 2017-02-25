@@ -66,11 +66,6 @@ public class ArmController : MonoBehaviour {
             //wrist
             UpdateAxis(_WristAxis, w_MinRot, w_MaxRot, ref w_CurrentRot, Hand, _WristAnchor);
         }
-
-        if (Input.GetAxis(_Hi5Axis) != 0)
-        {
-            StartCoroutine(_Fiveage());
-        }
     }
 
     private void UpdateAxis(string axis, float minLimit, float maxLimit, ref float currentRot, Transform obj, Transform anchor)

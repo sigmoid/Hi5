@@ -23,14 +23,24 @@ public class HandCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //print("trigger: seeck hi5");
+        GameObject gameManager = GameObject.Find("GameManager");
+        GameController gameController = gameManager.GetComponent<GameController>();
 
         if (this.tag == "Palm" && other.tag == "Palm")
         {
-            print("SICK HYFYVE");
-            //Destroy(other.transform.parent.gameObject);
+            print("THAT WAS A GUD HYFYVE");
+
+            gameController.WinLevel();
+
+            this.enabled = false;
         }
         else if (other.tag == "NotPalm")
+        {
             print("THAT WAS NOT A HYFYVE");
+
+            gameController.LoseLevel();
+
+            this.enabled = false;
+        }
     }
 }

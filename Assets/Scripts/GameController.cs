@@ -75,6 +75,12 @@ public class GameController : MonoBehaviour
         GameObject text;
         int sel;
 
+        // Stop moving
+        GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
+
+        // Stop level timer
+        GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
+
         if (win)
         {
             sel = Random.Range(0, winText.Length);

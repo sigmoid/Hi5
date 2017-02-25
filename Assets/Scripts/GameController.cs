@@ -43,6 +43,8 @@ public class GameController : MonoBehaviour
         _win = false;
         _levelOver = false;
         _endGameTimerText = endGameTimer.GetComponent<TimerTextController>();
+
+        WinLevel();
     }
 
     void Update ()
@@ -83,10 +85,10 @@ public class GameController : MonoBehaviour
         int sel;
 
         // Stop moving
-        GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
+        //GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
 
         // Stop level timer
-        GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
+        //GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
 
         if (_win)
         {

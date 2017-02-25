@@ -25,10 +25,10 @@ public class HandCollision : MonoBehaviour
     {
         //print("trigger: seeck hi5");
 
-        if (other.tag == "Palm")
+        if (this.tag == "Palm" && other.tag == "Palm")
         {
             print("SICK HYFYVE");
-            Destroy(other.transform.parent.gameObject);
+            //Destroy(other.transform.parent.gameObject);
         }
         else if (other.tag == "NotPalm")
             print("THAT WAS NOT A HYFYVE");

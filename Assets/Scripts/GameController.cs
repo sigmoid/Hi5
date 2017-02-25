@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
     void Start ()
     {
         endGameTimer.SetActive(false);
+        _win = false;
         _levelOver = false;
         _endGameTimerText = endGameTimer.GetComponent<TimerTextController>();
     }
@@ -54,22 +55,28 @@ public class GameController : MonoBehaviour
 
             if (_endGameTimeLeft <= 0)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                if (_win)
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                else
+                    RestartScene();
             }
         }
     }
 
     public void WinLevel ()
     {
-        EndLevel(true);
+        _win = true;
+        EndLevel();
+
     }
 
     public void LoseLevel ()
     {
-        EndLevel(false);
+        _win = false;
+        EndLevel();
     }
 
-    private void EndLevel (bool win)
+    private void EndLevel ()
     {
         // Display text
         GameObject text;
@@ -81,7 +88,7 @@ public class GameController : MonoBehaviour
         // Stop level timer
         GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
 
-        if (win)
+        if (_win)
         {
             sel = Random.Range(0, winText.Length);
             text = Instantiate(winText[sel]);           

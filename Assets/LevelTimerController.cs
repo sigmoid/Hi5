@@ -27,7 +27,7 @@ public class LevelTimerController : MonoBehaviour {
         }
 
         if (_levelTimeLeft <= 0)
-            GameObject.Find("GameManager").GetComponent<GameController>().LoseLevel();
+            GameObject.Find("GameManager").GetComponent<GameController>().TimeUp();
         
 	}
 }

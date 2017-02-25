@@ -13,12 +13,11 @@ public class HandCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print("seeck hi5");
+
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        //print("collision: STOP IT");
     }
 
     void OnTriggerEnter(Collider other)
@@ -28,16 +27,12 @@ public class HandCollision : MonoBehaviour
 
         if (this.tag == "Palm" && other.tag == "Palm")
         {
-            print("THAT WAS A GUD HYFYVE");
-
             gameController.WinLevel();
 
             this.enabled = false;
         }
         else if (other.tag == "NotPalm")
         {
-            print("THAT WAS NOT A HYFYVE");
-
             gameController.LoseLevel();
 
             this.enabled = false;

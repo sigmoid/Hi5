@@ -2,18 +2,20 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TimerTextController : MonoBehaviour {
+public class TimerTextController : MonoBehaviour
+{
 
     private Text _text;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         _text = GetComponent<Text>();
-        _text.color = Color.red;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	    
 	}
 

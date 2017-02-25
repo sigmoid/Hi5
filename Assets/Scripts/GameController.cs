@@ -17,11 +17,12 @@ public class GameController : MonoBehaviour
     private GameObject[] failText;
 
     [SerializeField]
-    private GameObject TimerText;
+    private GameObject endGameTimer;
 
-    private TimerTextController _timerTextScript;
-    private double _timeLeft;
+    private TimerTextController _endGameTimerText;
+    private double _endGameTimeLeft;
     private bool _levelOver;
+    private bool _win;
 
     void Awake ()
     {
@@ -38,21 +39,20 @@ public class GameController : MonoBehaviour
 
     void Start ()
     {
-        TimerText.SetActive(false);
+        endGameTimer.SetActive(false);
         _levelOver = false;
-        _timerTextScript = TimerText.GetComponent<TimerTextController>();
-        EndLevel(true);
+        _endGameTimerText = endGameTimer.GetComponent<TimerTextController>();
     }
 
     void Update ()
     {  
         if (_levelOver)
         {
-            _timeLeft -= Time.deltaTime;
-            TimerText.SetActive(true);
-            _timerTextScript.UpdateText((int)_timeLeft);
+            _endGameTimeLeft -= Time.deltaTime;
+            endGameTimer.SetActive(true);
+            _endGameTimerText.UpdateText((int)_endGameTimeLeft);
 
-            if (_timeLeft <= 0)
+            if (_endGameTimeLeft <= 0)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
@@ -78,20 +78,21 @@ public class GameController : MonoBehaviour
         if (win)
         {
             sel = Random.Range(0, winText.Length);
-            //text = Instantiate(winText[sel]);
+            text = Instantiate(winText[sel]);           
         }
         else
         {
             sel = Random.Range(0, failText.Length);
-            //text = Instantiate(failText[sel]);
+            text = Instantiate(failText[sel]);
         }
 
-        //text.transform.position = new Vector3(40, 50);
+        text.transform.SetParent(this.transform);
+        text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
 
         // Begin timer for next stage
         _levelOver = true;
-        _timeLeft = timeToNextLvl;
-        TimerText.SetActive(true);
+        _endGameTimeLeft = timeToNextLvl;
+        endGameTimer.SetActive(true);
 
     }
 

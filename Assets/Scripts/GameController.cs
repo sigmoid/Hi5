@@ -34,8 +34,7 @@ public class GameController : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this.transform.parent.gameObject);
-        
+        DontDestroyOnLoad(this.transform.parent.gameObject);        
     }
 
     void Start ()
@@ -61,7 +60,10 @@ public class GameController : MonoBehaviour
                 if (_win)
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 else
+                {
+                    Start();
                     RestartScene();
+                }
             }
         }
     }

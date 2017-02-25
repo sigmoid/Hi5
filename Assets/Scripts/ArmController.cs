@@ -3,6 +3,16 @@ using System.Collections;
 
 public class ArmController : MonoBehaviour {
 
+    [HeaderAttribute("Controls")]
+    [SerializeField]
+    private string _ShoulderAxis = "Shoulder";
+    [SerializeField]
+    private string _ElbowAxis = "Elbow";
+    [SerializeField]
+    private string _WristAxis = "Wrist";
+    [SerializeField]
+    private string _Hi5Axis = "Fire";
+
     public float Sensitivity = 100;
 
     [HeaderAttribute("Shoulder Limits")]
@@ -33,24 +43,31 @@ public class ArmController : MonoBehaviour {
     private float w_CurrentRot = 0;
 
     public Transform UpperArm, ForeArm, Hand;
-    private Transform _ShoulderAnchor, _ElbowAnchor, _WristAnchor;
+    public Transform _ShoulderAnchor, _ElbowAnchor, _WristAnchor;
 
-	// Use this for initialization
-	void Start () {
-        _ShoulderAnchor = GameObject.Find("ShoulderAnchor").transform;
-        _ElbowAnchor = GameObject.Find("ElbowAnchor").transform;
-        _WristAnchor = GameObject.Find("WristAnchor").transform;
+    //Is the player currently doing an auto hi5
+    private bool _IsFiving;
+
+    // Use this for initialization
+    void Start() {
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        //Update all three joints
-        UpdateAxis("Shoulder", s_MinRot, s_MaxRot, ref s_CurrentRot, UpperArm, _ShoulderAnchor);
-        UpdateAxis("Elbow", e_MinRot, e_MaxRot, ref e_CurrentRot, ForeArm, _ElbowAnchor);
-        UpdateAxis("Wrist", w_MinRot, w_MaxRot, ref w_CurrentRot, Hand, _WristAnchor);
 
-        if (Input.GetAxis("Fire") != 0)
+    // Update is called once per frame
+    void Update()
+    {
+        if (!_IsFiving)
+        {
+            //Update all three joints
+
+            //shoulder
+            UpdateAxis(_ShoulderAxis, s_MinRot, s_MaxRot, ref s_CurrentRot, UpperArm, _ShoulderAnchor);
+            //elbow
+            UpdateAxis(_ElbowAxis, e_MinRot, e_MaxRot, ref e_CurrentRot, ForeArm, _ElbowAnchor);
+            //wrist
+            UpdateAxis(_WristAxis, w_MinRot, w_MaxRot, ref w_CurrentRot, Hand, _WristAnchor);
+        }
+
+        if (Input.GetAxis(_Hi5Axis) != 0)
         {
             StartCoroutine(_Fiveage());
         }
@@ -72,6 +89,7 @@ public class ArmController : MonoBehaviour {
 
     private IEnumerator _Fiveage()
     {
+        _IsFiving = true;
         while (true)
         {
             float deg = Time.deltaTime * Sensitivity * 2;
@@ -84,6 +102,9 @@ public class ArmController : MonoBehaviour {
             }
             else
             {
+                //Reached the end of the elbow range
+                //TODO add fail state here
+                _IsFiving = false;
                 yield break;
             }
         }

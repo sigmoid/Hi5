@@ -94,10 +94,13 @@ public class ArmController : MonoBehaviour {
         {
             float deg = Time.deltaTime * Sensitivity * 2;
 
-            if (deg + e_CurrentRot <= e_MaxRot && deg + e_CurrentRot >= e_MinRot)
+            if (deg + e_CurrentRot <= e_MaxRot && deg + e_CurrentRot >= e_MinRot )
             {
                 e_CurrentRot += deg;
                 ForeArm.RotateAround(_ElbowAnchor.position, Vector3.forward, deg);
+                s_CurrentRot += deg;
+                UpperArm.RotateAround(_ShoulderAnchor.position, Vector3.forward, deg);
+
                 yield return null;
             }
             else

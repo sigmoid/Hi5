@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this.transform.parent.gameObject);
         
     }
 

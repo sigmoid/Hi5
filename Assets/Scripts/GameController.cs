@@ -20,6 +20,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject endGameTimer;
 
+    [SerializeField]
+    private string[] levels;
+
     private TimerTextController _endGameTimerText;
     private double _endGameTimeLeft;
     private bool _levelOver;
@@ -46,7 +49,10 @@ public class GameController : MonoBehaviour
             if (_endGameTimeLeft <= 0)
             {
                 if (_win)
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                {
+                    int sel = Random.Range(0, levels.Length);
+                    SceneManager.LoadScene(levels[sel]);
+                }
                 else
                 {
                     RestartScene();

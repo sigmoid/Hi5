@@ -4,9 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
-{
-    public static GameController instance;
-
+{ 
     [SerializeField]
     private int timeToNextLvl;
 
@@ -17,25 +15,15 @@ public class GameController : MonoBehaviour
     private GameObject[] failText;
 
     [SerializeField]
+    private GameObject[] failTimeText;
+
+    [SerializeField]
     private GameObject endGameTimer;
 
     private TimerTextController _endGameTimerText;
     private double _endGameTimeLeft;
     private bool _levelOver;
     private bool _win;
-
-    void Awake ()
-    {
-        // If we already have a game controller.
-        if (instance != null && instance != this)
-        {
-            Destroy(this.transform.parent.gameObject);
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(this.transform.parent.gameObject);        
-    }
 
     void Start ()
     {
@@ -44,7 +32,6 @@ public class GameController : MonoBehaviour
         _levelOver = false;
         _endGameTimerText = endGameTimer.GetComponent<TimerTextController>();
 
-        WinLevel();
     }
 
     void Update ()
@@ -61,7 +48,6 @@ public class GameController : MonoBehaviour
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 else
                 {
-                    Start();
                     RestartScene();
                 }
             }
@@ -71,14 +57,89 @@ public class GameController : MonoBehaviour
     public void WinLevel ()
     {
         _win = true;
-        EndLevel();
+
+        // Display text
+        GameObject text;
+        int sel;
+
+        // Stop moving
+        GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
+
+        // Stop level timer
+        GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
+
+        if (_win && !_levelOver)
+        {
+            sel = Random.Range(0, winText.Length);
+            text = Instantiate(winText[sel]);
+            text.transform.SetParent(this.transform);
+            text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
+        }    
+
+        // Begin timer for next stage
+        _levelOver = true;
+        _endGameTimeLeft = timeToNextLvl;
+        endGameTimer.SetActive(true);
 
     }
 
     public void LoseLevel ()
     {
         _win = false;
-        EndLevel();
+
+        // Display text
+        GameObject text;
+        int sel;
+
+        // Stop moving
+        GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
+
+        // Stop level timer
+        GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
+
+
+        if (!_levelOver)
+        {
+            sel = Random.Range(0, failText.Length);
+            text = Instantiate(failText[sel]);
+            text.transform.SetParent(this.transform);
+            text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
+        }
+
+        // Begin timer for next stage
+        _levelOver = true;
+        _endGameTimeLeft = timeToNextLvl;
+        endGameTimer.SetActive(true);
+
+    }
+
+    public void TimeUp ()
+    {
+        _win = false;
+
+        // Display text
+        GameObject text;
+        int sel;
+
+        // Stop moving
+        GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
+
+        // Stop level timer
+        GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
+
+        if (!_levelOver)
+        {
+            sel = Random.Range(0, failTimeText.Length);
+            text = Instantiate(failTimeText[sel]);
+            text.transform.SetParent(this.transform);
+            text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
+        }
+
+
+        // Begin timer for next stage
+        _levelOver = true;
+        _endGameTimeLeft = timeToNextLvl;
+        endGameTimer.SetActive(true);
     }
 
     private void EndLevel ()
@@ -88,24 +149,26 @@ public class GameController : MonoBehaviour
         int sel;
 
         // Stop moving
-        //GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
+        GameObject.Find("Arm").GetComponent<ArmController>().enabled = false;
 
         // Stop level timer
-        //GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
+        GameObject.Find("LevelTimer").GetComponent<LevelTimerController>().enabled = false;
 
-        if (_win)
+        if (_win && !_levelOver)
         {
             sel = Random.Range(0, winText.Length);
-            text = Instantiate(winText[sel]);           
+            text = Instantiate(winText[sel]);
+            text.transform.SetParent(this.transform);
+            text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
         }
-        else
+        else if (!_levelOver)
         {
             sel = Random.Range(0, failText.Length);
             text = Instantiate(failText[sel]);
+            text.transform.SetParent(this.transform);
+            text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
         }
 
-        text.transform.SetParent(this.transform);
-        text.transform.position = new Vector3(transform.position.x, transform.position.y, 1);
 
         // Begin timer for next stage
         _levelOver = true;

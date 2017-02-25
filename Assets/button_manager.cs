@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 public class button_manager : MonoBehaviour
 {
-    public void LoadScene()
+    public void LoadScene(string name)
     {
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(name);
     }
 
     public void NewGameBtn(string newGameLevel)

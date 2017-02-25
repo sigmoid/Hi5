@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     private bool _levelOver;
     private bool _win;
 
+    // Start
     void Start ()
     {
         endGameTimer.SetActive(false);

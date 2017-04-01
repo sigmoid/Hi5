@@ -31,8 +31,16 @@ public class HandCollision : MonoBehaviour
 
             this.enabled = false;
         }
+
         else if (other.tag == "NotPalm")
         {
+            gameController.LoseLevel();
+
+            this.enabled = false;
+        }
+        else if (this.tag == "NotPalm" && other.tag == "NotPalm")
+        {
+            
             gameController.LoseLevel();
 
             this.enabled = false;

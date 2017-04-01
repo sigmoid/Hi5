@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 { 
@@ -22,11 +23,16 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private string[] levels;
+    private static List<int> shuffled;
+    
 
     private TimerTextController _endGameTimerText;
     private double _endGameTimeLeft;
     private bool _levelOver;
     private bool _win;
+
+    
+  
 
     // Start
     void Start ()
@@ -35,7 +41,7 @@ public class GameController : MonoBehaviour
         _win = false;
         _levelOver = false;
         _endGameTimerText = endGameTimer.GetComponent<TimerTextController>();
-
+        
     }
 
     void Update ()
@@ -48,10 +54,29 @@ public class GameController : MonoBehaviour
 
             if (_endGameTimeLeft <= 0)
             {
+            
                 if (_win)
-                {
-                    int sel = Random.Range(0, levels.Length);
-                    SceneManager.LoadScene(levels[sel]);
+                {   
+                    if (shuffled == null)
+                    {
+                        shuffled = new List<int>();
+                        for (int i = 1; i < levels.Length; i++)
+                            shuffled.Add(i);
+                    }                            
+                    int sel = Random.Range(0, shuffled.Count);
+                    int toLoad = shuffled[sel];
+                    
+                    shuffled.RemoveAt(sel);
+                    if (shuffled.Count == 0)
+                    {
+                        for (int i = 0; i < levels.Length; i++)
+                        {
+                            shuffled.Add(i);
+                        }
+                        shuffled.Remove(toLoad);
+                    }
+                    SceneManager.LoadScene(levels[toLoad]);
+
                 }
                 else
                 {
